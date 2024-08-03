@@ -34,12 +34,12 @@ const sortBy = (key) => {
   <table class="table-fixed border-collapse border border-slate-300 shadow-lg">
     <thead>
       <tr class="border-2 border-slate-300 bg-zinc-200">
-        <th @click="sortBy('country')" class="cursor-pointer hover:font-extrabold">Country</th>
-        <th @click="sortBy('bronze')" class="cursor-pointer hover:font-extrabold">Bronze Medals Per 100 Athletes</th>
-        <th @click="sortBy('silver')" class="cursor-pointer hover:font-extrabold">Silver Medals Per 100 Athletes</th>
-        <th @click="sortBy('gold')" class="cursor-pointer hover:font-extrabold">Gold Medals Per 100 Athletes</th>
-        <th @click="sortBy('total')" class="cursor-pointer hover:font-extrabold">Total Medals Per 100 Athletes</th>
-        <th @click="sortBy('athletes')" class="cursor-pointer hover:font-extrabold">Total Athletes</th>
+        <th @click="sortBy('country')" class="cursor-pointer hover:scale-110">Country</th>
+        <th @click="sortBy('bronze')" class="cursor-pointer hover:scale-110">Bronze Medals Per 100 Athletes</th>
+        <th @click="sortBy('silver')" class="cursor-pointer hover:scale-110">Silver Medals Per 100 Athletes</th>
+        <th @click="sortBy('gold')" class="cursor-pointer hover:scale-110">Gold Medals Per 100 Athletes</th>
+        <th @click="sortBy('total')" class="cursor-pointer hover:scale-110">Total Medals Per 100 Athletes</th>
+        <th @click="sortBy('athletes')" class="cursor-pointer hover:scale-110">Total Athletes</th>
       </tr>
     </thead>
     <tbody>
