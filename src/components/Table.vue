@@ -12,19 +12,44 @@ onMounted(async () => {
   }
 })
 
+const sortKey = ref('')
+const sortUp = ref(true)
+
 const sortBy = (key) => {
-  if (key === 'country') {
-    data.value.sort((a, b) => a[0].localeCompare(b[0]))
-  } else if (key === 'bronze') {
-    data.value.sort((a, b) => b[1] - a[1])
-  } else if (key === 'silver') {
-    data.value.sort((a, b) => b[2] - a[2])
-  } else if (key === 'gold') {
-    data.value.sort((a, b) => b[3] - a[3])
-  } else if (key === 'total') {
-    data.value.sort((a, b) => b[4] - a[4])
-  } else if (key === 'athletes') {
-    data.value.sort((a, b) => b[5] - a[5])
+  if (key === sortKey.value) {
+    sortUp.value = !sortUp.value
+  } else {
+    sortUp.value = true
+  }
+  sortKey.value = key
+  if (sortUp.value) {
+    if (key === 'country') {
+      data.value.sort((a, b) => a[0].localeCompare(b[0]))
+    } else if (key === 'bronze') {
+      data.value.sort((a, b) => b[1] - a[1])
+    } else if (key === 'silver') {
+      data.value.sort((a, b) => b[2] - a[2])
+    } else if (key === 'gold') {
+      data.value.sort((a, b) => b[3] - a[3])
+    } else if (key === 'total') {
+      data.value.sort((a, b) => b[4] - a[4])
+    } else if (key === 'athletes') {
+      data.value.sort((a, b) => b[5] - a[5])
+    }
+  } else {
+    if (key === 'country') {
+      data.value.sort((a, b) => b[0].localeCompare(a[0]))
+    } else if (key === 'bronze') {
+      data.value.sort((a, b) => a[1] - b[1])
+    } else if (key === 'silver') {
+      data.value.sort((a, b) => a[2] - b[2])
+    } else if (key === 'gold') {
+      data.value.sort((a, b) => a[3] - b[3])
+    } else if (key === 'total') {
+      data.value.sort((a, b) => a[4] - b[4])
+    } else if (key === 'athletes') {
+      data.value.sort((a, b) => a[5] - b[5])
+    } 
   }
 }
 
