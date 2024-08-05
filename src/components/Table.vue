@@ -5,7 +5,7 @@ const loadState = ref("loading")
 const data = ref([])
 onMounted(async () => {
   try {
-    const response = await fetch('https://server-small-butterfly-8681.fly.dev', { signal: AbortSignal.timeout(3000) })
+    const response = await fetch('https://server-small-butterfly-8681.fly.dev', { signal: AbortSignal.timeout(7000) })
     const jsonData = await response.json()
     data.value = jsonData
     loadState.value = "done"
@@ -70,7 +70,7 @@ const sortBy = (key) => {
         <th @click="sortBy('athletes')" class="cursor-pointer hover:scale-110">Total Athletes</th>
       </tr>
     </thead>
-    <tbody v-if="loadState === 'done'">
+    <tbody v-if="loadState === 'done' && data[0].length === 6">
       <tr v-for="item in data" class="border border-slate-300 bg-stone-50 hover:bg-zinc-100">
         <td>{{ item[0] }}</td>
         <td class='text-center'>{{ item[1].toFixed(2) }}</td>
@@ -78,6 +78,16 @@ const sortBy = (key) => {
         <td class='text-center'>{{ item[3].toFixed(2) }}</td>
         <td class='text-center'>{{ item[4].toFixed(2) }}</td>
         <td class='text-center'>{{ item[5] }}</td>
+      </tr>
+    </tbody>
+    <tbody v-if="loadState === 'done' && data[0].length === 10">
+      <tr v-for="item in data" class="border border-slate-300 bg-stone-50 hover:bg-zinc-100">
+        <td>{{ item[0] }}</td>
+        <td class='text-center'>{{ item[1].toFixed(2) + ' (' + item[2] + ')' }}</td>
+        <td class='text-center'>{{ item[3].toFixed(2) + ' (' + item[4] + ')' }}</td>
+        <td class='text-center'>{{ item[5].toFixed(2) + ' (' + item[6] + ')' }}</td>
+        <td class='text-center'>{{ item[7].toFixed(2) + ' (' + item[8] + ')' }}</td>
+        <td class='text-center'>{{ item[9] }}</td>
       </tr>
     </tbody>
     <tbody v-else-if="loadState === 'error'">
