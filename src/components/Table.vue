@@ -31,13 +31,13 @@ const sortBy = (key) => {
     } else if (key === 'bronze') {
       data.value.sort((a, b) => b[1] - a[1])
     } else if (key === 'silver') {
-      data.value.sort((a, b) => b[2] - a[2])
-    } else if (key === 'gold') {
       data.value.sort((a, b) => b[3] - a[3])
-    } else if (key === 'total') {
-      data.value.sort((a, b) => b[4] - a[4])
-    } else if (key === 'athletes') {
+    } else if (key === 'gold') {
       data.value.sort((a, b) => b[5] - a[5])
+    } else if (key === 'total') {
+      data.value.sort((a, b) => b[7] - a[7])
+    } else if (key === 'athletes') {
+      data.value.sort((a, b) => b[9] - a[9])
     }
   } else {
     if (key === 'country') {
@@ -45,13 +45,13 @@ const sortBy = (key) => {
     } else if (key === 'bronze') {
       data.value.sort((a, b) => a[1] - b[1])
     } else if (key === 'silver') {
-      data.value.sort((a, b) => a[2] - b[2])
-    } else if (key === 'gold') {
       data.value.sort((a, b) => a[3] - b[3])
-    } else if (key === 'total') {
-      data.value.sort((a, b) => a[4] - b[4])
-    } else if (key === 'athletes') {
+    } else if (key === 'gold') {
       data.value.sort((a, b) => a[5] - b[5])
+    } else if (key === 'total') {
+      data.value.sort((a, b) => a[7] - b[7])
+    } else if (key === 'athletes') {
+      data.value.sort((a, b) => a[9] - b[9])
     } 
   }
 }
