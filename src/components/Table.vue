@@ -1,15 +1,18 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 
+const loadState = ref("loading")
 const data = ref([])
 onMounted(async () => {
   try {
-    const response = await fetch('https://server-small-butterfly-8681.fly.dev')
+    const response = await fetch('https://server-small-butterfly-8681.fly.dev', { signal: AbortSignal.timeout(3000) })
     const jsonData = await response.json()
     data.value = jsonData
+    loadState.value = "done"
   } catch (error) {
     console.log(error)
-  }
+    loadState.value = "error"
+  } 
 })
 
 const sortKey = ref('')
@@ -67,7 +70,7 @@ const sortBy = (key) => {
         <th @click="sortBy('athletes')" class="cursor-pointer hover:scale-110">Total Athletes</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody v-if="loadState === 'done'">
       <tr v-for="item in data" class="border border-slate-300 bg-stone-50 hover:bg-zinc-100">
         <td>{{ item[0] }}</td>
         <td class='text-center'>{{ item[1].toFixed(2) }}</td>
@@ -75,6 +78,30 @@ const sortBy = (key) => {
         <td class='text-center'>{{ item[3].toFixed(2) }}</td>
         <td class='text-center'>{{ item[4].toFixed(2) }}</td>
         <td class='text-center'>{{ item[5] }}</td>
+      </tr>
+    </tbody>
+    <tbody v-else-if="loadState === 'error'">
+      <tr>
+        <td colspan="6">
+          <div class="flex justify-center">
+            <div class="text-center">
+              <p class="text-2xl font-bold">Error</p>
+              <p class="text-lg">Something went wrong while loading the data.</p>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+    <tbody v-else>
+      <tr>
+        <td colspan="6">
+          <div class="flex justify-center">
+            <div class="text-center">
+              <p class="text-2xl font-bold">Loading...</p>
+              <p class="text-lg">Please wait while the data is being loaded.</p>
+            </div>
+          </div>
+        </td>
       </tr>
     </tbody>
   </table>
