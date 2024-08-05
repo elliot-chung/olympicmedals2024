@@ -83,10 +83,10 @@ const sortBy = (key) => {
     <tbody v-if="loadState === 'done' && data[0].length === 10">
       <tr v-for="item in data" class="border border-slate-300 bg-stone-50 hover:bg-zinc-100">
         <td>{{ item[0] }}</td>
-        <td class='text-center'>{{ item[1].toFixed(2) + ' (' + item[2] + ')' }}</td>
-        <td class='text-center'>{{ item[3].toFixed(2) + ' (' + item[4] + ')' }}</td>
-        <td class='text-center'>{{ item[5].toFixed(2) + ' (' + item[6] + ')' }}</td>
-        <td class='text-center'>{{ item[7].toFixed(2) + ' (' + item[8] + ')' }}</td>
+        <td class='text-center'>{{ item[1].toFixed(2) + ' (' + item[2].toFixed(0) + ')' }}</td>
+        <td class='text-center'>{{ item[3].toFixed(2) + ' (' + item[4].toFixed(0) + ')' }}</td>
+        <td class='text-center'>{{ item[5].toFixed(2) + ' (' + item[6].toFixed(0) + ')' }}</td>
+        <td class='text-center'>{{ item[7].toFixed(2) + ' (' + item[8].toFixed(0) + ')' }}</td>
         <td class='text-center'>{{ item[9] }}</td>
       </tr>
     </tbody>
