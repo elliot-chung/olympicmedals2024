@@ -1,19 +1,54 @@
 <script setup>
 import { ref, onMounted } from 'vue'
+import athleteData from '../assets/athletes.json'
+import medalData from '../assets/medals.json'
+import countryData from '../assets/countries.json'
 
 const loadState = ref("loading")
 const data = ref([])
 onMounted(async () => {
   try {
-    const response = await fetch('https://server-small-butterfly-8681.fly.dev', { signal: AbortSignal.timeout(7000) })
-    const jsonData = await response.json()
-    data.value = jsonData
+    data.value = medalsPer100Athletes()
     loadState.value = "done"
+
   } catch (error) {
     console.log(error)
     loadState.value = "error"
   } 
 })
+
+const medalsPer100Athletes = () => {
+    const epsilon = 0.00001
+    const output = []
+    // 'AIN' team is missing from the medal data
+    // AIN is the country for Belarus and Russia since both country's athletes have been banned from the Olympics due to doping (and the Russian war on Ukraine)
+    // The latter reason seems to be the reason why microsoft is not reporting the medal data for AIN
+    for (const medalResult of medalData) {
+        const bronzeCount = medalResult['medalsWon']['Bronze'] ? medalResult['medalsWon']['Bronze'] : epsilon
+        const silverCount = medalResult['medalsWon']['Silver'] ? medalResult['medalsWon']['Silver'] : epsilon
+        const goldCount = medalResult['medalsWon']['Gold'] ? medalResult['medalsWon']['Gold'] : epsilon
+        const totalCount = medalResult['medalsWon']['Total'] ? medalResult['medalsWon']['Total'] : epsilon
+        
+        const countryKey = medalResult['team']['shortName']['rawName']
+        const athleteCount = athleteData[countryKey] || 1
+        const countryName = countryData[countryKey] || 'Unknown'
+
+        const bronze_per_athlete = bronzeCount / athleteCount
+        const silver_per_athlete = silverCount / athleteCount
+        const gold_per_athlete = goldCount / athleteCount
+        const total_per_athlete = totalCount / athleteCount
+
+        const bronze_per_100 = bronze_per_athlete * 100
+        const silver_per_100 = silver_per_athlete * 100
+        const gold_per_100 = gold_per_athlete * 100
+        const total_per_100 = total_per_athlete * 100
+
+        const item = [countryName, bronze_per_100, bronzeCount, silver_per_100, silverCount, gold_per_100, goldCount, total_per_100, totalCount, athleteCount]
+        output.push(item)
+    }
+    console.log(output)
+    return output
+}
 
 const sortKey = ref('')
 const sortUp = ref(true)
@@ -70,17 +105,7 @@ const sortBy = (key) => {
         <th @click="sortBy('athletes')" class="cursor-pointer hover:scale-110">Total Athletes</th>
       </tr>
     </thead>
-    <tbody v-if="loadState === 'done' && data[0].length === 6">
-      <tr v-for="item in data" class="border border-slate-300 bg-stone-50 hover:bg-zinc-100">
-        <td>{{ item[0] }}</td>
-        <td class='text-center'>{{ item[1].toFixed(2) }}</td>
-        <td class='text-center'>{{ item[2].toFixed(2) }}</td>
-        <td class='text-center'>{{ item[3].toFixed(2) }}</td>
-        <td class='text-center'>{{ item[4].toFixed(2) }}</td>
-        <td class='text-center'>{{ item[5] }}</td>
-      </tr>
-    </tbody>
-    <tbody v-if="loadState === 'done' && data[0].length === 10">
+    <tbody v-if="loadState === 'done'">
       <tr v-for="item in data" class="border border-slate-300 bg-stone-50 hover:bg-zinc-100">
         <td>{{ item[0] }}</td>
         <td class='text-center'>{{ item[1].toFixed(2) + ' (' + item[2].toFixed(0) + ')' }}</td>
